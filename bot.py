@@ -10,15 +10,15 @@ class TulingWXBot(WXBot):
     def __init__(self):
         WXBot.__init__(self)
 
-        self.tuling_key = ""
+        self.tuling_key = "2d207cf0a78042b38abf814eb3e52bbf"
         self.robot_switch = True
 
-        try:
-            cf = ConfigParser.ConfigParser()
-            cf.read('conf.ini')
-            self.tuling_key = cf.get('main', 'key')
-        except Exception:
-            pass
+        # try:
+        #     cf = ConfigParser.ConfigParser()
+        #     cf.read('conf.ini')
+        #     self.tuling_key = cf.get('main', 'key')
+        # except Exception:
+        #     pass
         print 'tuling_key:', self.tuling_key
 
     def tuling_auto_reply(self, uid, msg):
@@ -36,8 +36,8 @@ class TulingWXBot(WXBot):
                 result = respond['url']
             elif respond['code'] == 302000:
                 for k in respond['list']:
-                    result = result + u"【" + k['source'] + u"】 " +\
-                        k['article'] + "\t" + k['detailurl'] + "\n"
+                    result = result + u"【" + k['source'] + u"】 " + \
+                             k['article'] + "\t" + k['detailurl'] + "\n"
             else:
                 result = respond['text'].replace('<br>', '  ')
                 result = result.replace(u'\xa0', u' ')
@@ -63,6 +63,17 @@ class TulingWXBot(WXBot):
                     self.send_msg_by_uid(u'[Robot]' + u'机器人已开启！', msg['to_user_id'])
 
     def handle_msg_all(self, msg):
+        if msg['msg_type_id'] == 4 and msg['content']['type'] == 0:
+            # return
+            if msg['user']['name'] == u'惠学日语班主任ひかり小光老师':
+                self.send_msg_by_uid(self.tuling_auto_reply(msg['user']['id'], msg['content']['data']),
+                                     msg['user']['id'])
+
+
+"""
+    def handle_msg_all(self, msg):
+        if msg['user']['name'] != u'惠学日语班主任ひかり小光老师':
+            return
         if not self.robot_switch and msg['msg_type_id'] != 1:
             return
         if msg['msg_type_id'] == 1 and msg['content']['type'] == 0:  # reply to self
@@ -94,6 +105,7 @@ class TulingWXBot(WXBot):
                     else:
                         reply += u"对不起，只认字，其他杂七杂八的我都不认识，,,Ծ‸Ծ,,"
                     self.send_msg_by_uid(reply, msg['user']['id'])
+"""
 
 
 def main():
@@ -106,4 +118,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
