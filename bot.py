@@ -2,7 +2,7 @@
 # coding: utf-8
 
 from wxbot import *
-import ConfigParser
+import configparser
 import json
 
 
@@ -10,16 +10,16 @@ class TulingWXBot(WXBot):
     def __init__(self):
         WXBot.__init__(self)
 
-        self.tuling_key = "2d207cf0a78042b38abf814eb3e52bbf"
+        self.tuling_key = ""
         self.robot_switch = True
 
-        # try:
-        #     cf = ConfigParser.ConfigParser()
-        #     cf.read('conf.ini')
-        #     self.tuling_key = cf.get('main', 'key')
-        # except Exception:
-        #     pass
-        print 'tuling_key:', self.tuling_key
+        try:
+            cf = configparser.ConfigParser()
+            cf.read('conf.ini')
+            self.tuling_key = cf.get('main', 'key')
+        except Exception:
+            pass
+        print('tuling_key:', self.tuling_key)
 
     def tuling_auto_reply(self, uid, msg):
         if self.tuling_key:
@@ -42,7 +42,7 @@ class TulingWXBot(WXBot):
                 result = respond['text'].replace('<br>', '  ')
                 result = result.replace(u'\xa0', u' ')
 
-            print '    ROBOT:', result
+            print('    ROBOT:', result)
             return result
         else:
             return u"知道啦"
