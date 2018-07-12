@@ -63,17 +63,6 @@ class TulingWXBot(WXBot):
                     self.send_msg_by_uid(u'[Robot]' + u'机器人已开启！', msg['to_user_id'])
 
     def handle_msg_all(self, msg):
-        if msg['msg_type_id'] == 4 and msg['content']['type'] == 0:
-            # return
-            if msg['user']['name'] == u'惠学日语班主任ひかり小光老师':
-                self.send_msg_by_uid(self.tuling_auto_reply(msg['user']['id'], msg['content']['data']),
-                                     msg['user']['id'])
-
-
-"""
-    def handle_msg_all(self, msg):
-        if msg['user']['name'] != u'惠学日语班主任ひかり小光老师':
-            return
         if not self.robot_switch and msg['msg_type_id'] != 1:
             return
         if msg['msg_type_id'] == 1 and msg['content']['type'] == 0:  # reply to self
@@ -105,7 +94,6 @@ class TulingWXBot(WXBot):
                     else:
                         reply += u"对不起，只认字，其他杂七杂八的我都不认识，,,Ծ‸Ծ,,"
                     self.send_msg_by_uid(reply, msg['user']['id'])
-"""
 
 
 def main():

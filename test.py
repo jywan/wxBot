@@ -8,8 +8,13 @@ from wxbot import *
 class MyWXBot(WXBot):
     def handle_msg_all(self, msg):
         if msg['msg_type_id'] == 4 and msg['content']['type'] == 0:
-            self.send_msg_by_uid('hi', msg['user']['id'])
-
+            if msg['user']['name'] == 'PP':
+                if '1' in msg['content']['data'].lower():
+                    self.send_msg_by_uid('俺爱你！', msg['user']['id'])
+                if '2' in msg['content']['data'].lower():
+                    self.send_msg_by_uid('你好漂亮！', msg['user']['id'])
+                if '3' in msg['content']['data'].lower():
+                    self.send_msg_by_uid('你瘦了！', msg['user']['id'])
             # self.send_img_msg_by_uid("img/1.png", msg['user']['id'])
             # self.send_file_msg_by_uid("img/1.png", msg['user']['id'])
 
