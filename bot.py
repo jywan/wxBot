@@ -5,6 +5,7 @@ from wxbot import *
 import configparser
 import json
 
+# python git test
 
 class TulingWXBot(WXBot):
     def __init__(self):
