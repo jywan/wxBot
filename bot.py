@@ -55,7 +55,8 @@ class TulingWXBot(WXBot):
                         groupType = res['groupType']
                     if res['groupType'] == groupType:
                         if res['resultType'] == 'text':
-                            result = result + '\t' + res['values']['text'].replace('<br>', '  ')
+                            result = result + '\t' + \
+                                res['values']['text'].replace('<br>', '  ')
                         if res['resultType'] == 'url':
                             result = result + '\t' + res['values']['url']
 
@@ -83,13 +84,15 @@ class TulingWXBot(WXBot):
         if msg['msg_type_id'] == 1 and msg['content']['type'] == 0:  # 自己发送的文本信息，发送命令来开启或关闭机器人
             self.auto_switch(msg)
         elif msg['msg_type_id'] == 4 and msg['content']['type'] == 0:  # text message from contact
-            self.send_msg_by_uid(self.tuling_auto_reply(msg['user']['id'], msg['content']['data']), msg['user']['id'])
+            self.send_msg_by_uid(self.tuling_auto_reply(
+                msg['user']['id'], msg['content']['data']), msg['user']['id'])
         elif msg['msg_type_id'] == 3 and msg['content']['type'] == 0:  # group text message
             if 'detail' in msg['content']:
                 '''detail元素类型为含有 type 与 value 字段的字典，
                  type 为字符串 str (表示元素为普通字符串，此时value为消息内容) 
                  或 at (表示元素为@信息， 此时value为所@的用户名)'''
-                my_names = self.get_group_member_name(msg['user']['id'], self.my_account['UserName'])
+                my_names = self.get_group_member_name(
+                    msg['user']['id'], self.my_account['UserName'])
                 if my_names is None:
                     my_names = {}
                 if 'NickName' in self.my_account and self.my_account['NickName']:
@@ -108,7 +111,8 @@ class TulingWXBot(WXBot):
                     src_name = msg['content']['user']['name']
                     reply = 'to ' + src_name + ': '
                     if msg['content']['type'] == 0:  # text message
-                        reply += self.tuling_auto_reply(msg['content']['user']['id'], msg['content']['desc'])
+                        reply += self.tuling_auto_reply(
+                            msg['content']['user']['id'], msg['content']['desc'])
                     else:
                         reply += "对不起，只认字，其他杂七杂八的我都不认识，,,Ծ‸Ծ,,"
                     self.send_msg_by_uid(reply, msg['user']['id'])
